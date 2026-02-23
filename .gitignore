@@ -1,0 +1,76 @@
+# =========================
+# Build folders
+# =========================
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+out/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+
+# =========================
+# Visual Studio files
+# =========================
+.vs/
+*.VC.db
+*.VC.opendb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+
+# IntelliSense
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+
+# =========================
+# Executables & binaries
+# =========================
+*.exe
+*.dll
+*.lib
+*.exp
+*.obj
+*.pch
+*.pdb
+*.ilk
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS generated files
+# =========================
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*.cache
+*.bak
+*.old
+
+# =========================
+# Test outputs
+# =========================
+TestResults/
+*.trx
