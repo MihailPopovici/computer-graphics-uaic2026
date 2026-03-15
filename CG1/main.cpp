@@ -1,4 +1,4 @@
-/*
+﻿/*
   This program plots different 2D functions.
 */
 
@@ -304,12 +304,47 @@ void Display3() {
     fractalSquare(t, 1.9f, g_recursionCurrent-1);
 }
 
+void arrowhead(Turtle t, float length, int level, bool flip)
+{
+    if (level == 0)
+    {
+        t.draw(length);
+        return;
+    }
 
-void Display4() {
-    //Draw the triangle-like hex line fractal here.
+    float newLen = length / 2.0f;
+
+    if (!flip)
+        t.rotate(pi / 3);
+    else
+        t.rotate(-pi / 3);
+
+    arrowhead(t, newLen, level - 1, !flip);
+    t.move(newLen);
+
+    if (!flip)
+        t.rotate(-pi / 3);
+    else
+        t.rotate(pi / 3);
+
+    arrowhead(t, newLen, level - 1, flip);
+    t.move(newLen);
+
+    if (!flip)
+        t.rotate(-pi / 3);
+    else
+        t.rotate(pi / 3);
+
+    arrowhead(t, newLen, level - 1, !flip);
+}
+
+void Display4()
+{
     glColor3f(1, 0, 0);
     drawRecursionLevel();
 
+    Turtle t(-0.95, -0.95);
+    arrowhead(t, 1.9f, g_recursionCurrent, false);
 }
 
 template <typename FloatType>
