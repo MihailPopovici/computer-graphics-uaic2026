@@ -426,25 +426,41 @@ void Display5() {
     jf.draw(-drawSize, drawSize, -drawSize, drawSize, g_w, g_h);
 }
 
-
-//Modify what you think necessary in the MB class to draw the Mandelbrot Fractal.
 template <typename FloatType>
 class MB : public JF<FloatType> {
 public:
-    MB(FloatType xmin, FloatType xmax, FloatType ymin, FloatType ymax, FloatType a = 0, FloatType b = 0, FloatType maxRadius = 20, int maxIteration = 150) :
-        JF<FloatType>(xmin, xmax, ymin, ymax, a, b, maxRadius, maxIteration) {}
+    MB(FloatType xmin, FloatType xmax, FloatType ymin, FloatType ymax,
+        FloatType maxRadius = 20, int maxIteration = 150)
+        : JF<FloatType>(xmin, xmax, ymin, ymax, 0, 0, maxRadius, maxIteration) {}
+
+protected:
+    inline int test(std::complex<FloatType> z,
+        std::complex<FloatType>,
+        double maxRadius = 2,
+        int    maxIteration = 50) override
+    {
+        std::complex<FloatType> c = z;              
+        z = std::complex<FloatType>(0, 0);         
+        for (int ii = maxIteration; ii > 0; --ii) {
+            z = z * z + c;
+            if (std::abs(z) > maxRadius)
+                return ii;  
+        }
+        return 0;           
+    }
+
+public:
+   
 };
 
 void Display6() {
-    //Draw the Mandelbrot fractal here.
-    float drawSize = 1.0;
-    MB<double> mb(-2, 2, -2, 2);
-    /*
-      +1 because we're going full-window, and pixel-perfect drawing
-      is weird because pixels are actually placed at 0.5 coordinates.
-      More on this in the Shaders homework and lecture.
-    */
+    float drawSize = 1.0f;
+    MB<double> mb(-2.5, 1.0, -1.25, 1.25, 20, 150);
+
+    glColor3f(1, 0, 0);
     mb.draw(-drawSize, drawSize, -drawSize, drawSize, g_w + 1, g_h + 1);
+
+  
 }
 
 void Display7() {
