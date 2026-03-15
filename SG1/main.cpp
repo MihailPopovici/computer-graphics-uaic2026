@@ -129,18 +129,6 @@ void Display2() {
 }
 
 
-
-//TREBUIE ADAUGATA MARGINE!!!!!!!!!!!!!!     
-// 
-// Pentru scalare: iterare prin toata functia si gaseste min pt coordonate.
-// Dupa scalezi cu maximul dintre scale-uri 
-// 
-// 
-// Intrebari: Ce inseamna modulul unui numar complex -> distanta de la orgine sau cv
-// 
-// ce inseamna coordonate/functii polare si cu ce sunt diferite  
-
-
 /* 1)
    \( f(x) =
      \left\{
@@ -152,33 +140,6 @@ void Display2() {
    \)
  */
 void Display3() {
-    /*double xmax = 100.0;
-    double ymax = 1.5;
-
-
-    glColor3f(1, 0.1, 0.1);
-
-    glBegin(GL_POINTS);
-    glVertex2d(0.0, 1.0);
-    glEnd();
-
-    for (int n = 0; n < 100; n++) {
-        glBegin(GL_LINE_STRIP);
-
-        for (double x = n + 0.01; x < n +1; x += 0.01) {
-            double nearest = round(x);
-            double d = fabs(x - nearest);
-            double y = d / x;
-
-            double x1 = x /xmax ;
-            double y1 = y / ymax;
-
-            glVertex2d(x1, y1);
-        }
-
-        glEnd();
-    }*/
-
     double scaleX = 22.0;
     double scaleY = 1.1;
 
@@ -195,10 +156,8 @@ void Display3() {
         }
         else {
             double integer = round(x);
-            // std::cout << "\n\n" << "x: " << x << "; round(x): " << integer;
             double distance = fabs(x - integer);
             y = distance / x;
-            // std::cout << "\n distance between nearest rounded integer and x: " << distance << '\n' << "y: " << y << "\n";
         }
 
 
@@ -295,7 +254,6 @@ void Display4() {
 
     }
 
-    //scale = (xmax > ymax) ? xmax : ymax;
 
     glColor3f(1.0, 0.1, 0.1);
     glBegin(GL_LINE_STRIP);
@@ -307,8 +265,9 @@ void Display4() {
 
     }
     glEnd();
+    
 
-    // plot(circle_concoid_x, circle_concoid_y, 0.3, 0.2, -pi, pi, 0.01, xmax * 1.1, ymax * 1.1);
+    //plot(circle_concoid_x, circle_concoid_y, 0.3, 0.2, -pi+0.0001, pi, 0.01, xmax * 1.1, ymax * 1.1);
 }
 
 /*
@@ -348,7 +307,7 @@ void Display5() {
     }
     glEnd();
 
-    //plot(cicloid_x, cicloid_y, 0.2, 0.2, -10, 10)
+    //plot(cicloid_x, cicloid_y, 0.1, 0.2, -10, 10, 0.01, xmax * 1.1, ymax*3.5)
 }
 
 /*
@@ -387,7 +346,7 @@ void Display6() {
     }
     glEnd();
 
-    //plot(epicicloid_x, epicicloid_y, 0.1, 0.3, 0, 2 * pi);
+    //plot(epicicloid_x, epicicloid_y, 0.1, 0.3, 0, 2 * pi, 0.01, xmax * 1.1, ymax * 1.1);
 }
 
 /*
@@ -427,7 +386,7 @@ void Display7() {
     }
     glEnd();
 
-    //plot(hipocicloid_x, hipocicloid_y, 0.1, 0.3, 0, 2 * pi);
+    //plot(hipocicloid_x, hipocicloid_y, 0.1, 0.3, 0, 2 * pi, 0.01, xmax * 1.1, ymax * 1.1);
 }
 
 /*
@@ -457,7 +416,7 @@ void Display8() {
 
     glColor3f(1.0, 0.1, 0.1);
     glBegin(GL_LINE_STRIP);
-    for (double t = start; t < end; t += step)  //2 * pi -> o tura completa ,sufcient pentru o spirala
+    for (double t = start; t < end; t += step) 
     {
         double r = a * exp(1 + t);
         x = r * cos(t);
@@ -513,48 +472,41 @@ t \in (-\pi/2, \pi/2) \setminus \{ -\pi/6, \pi/6 \} \) .
 For this plot, \(a = 0.2\) .
  */
 
- // AM FACUT O MULTIME DE LINII IN LOC DE UN POLIGON CONTINUU SAU CV DE GENU
-  // MOIRE EFFECT SAU CEVA DE GENUL
 
 void Display10() {
     double a = 0.2;
 
     double x1, y1, x2, y2;
 
-    double limit = 0.5;
-    double step = 0.01;
-    double eps = 0.03;
+    double limit = 0.9;  
+    double step = 0.005; 
+    double eps = 0.005;
 
-    double start = -pi / 2 + step;
-    double end = pi / 2;
+    double start = -pi / 2 + eps;
+    double end = -pi / 6 ;
 
     double ox = -0.9;
     double oy = 0.9;
 
     int idx = 0;
+    
 
-    glBegin(GL_TRIANGLE_FAN);
-
+    glBegin(GL_TRIANGLES);
+    
     for (double t = start; t < end; t += step, idx++) {
-
-        if (fabs(t - pi / 6) < eps || fabs(t + pi / 6) < eps)
-            continue;
 
         double t2 = t + step;
 
-        if (fabs(t2 - pi / 6) < eps || fabs(t2 + pi / 6) < eps)
-            continue;
+        x1 = a / (4 * cos(t) * cos(t) - 3);
+        y1 = (a * tan(t)) / (4 * cos(t) * cos(t) - 3);
 
-        x1 = (a * cos(t)) / (4 * cos(t) * cos(t) - 3);
-        y1 = (a * sin(t)) / (4 * cos(t) * cos(t) - 3);
+        x2 = a / (4 * cos(t2) * cos(t2) - 3);
+        y2 = (a * tan(t2)) / (4 * cos(t2) * cos(t2) - 3);
 
-        x2 = (a * cos(t2)) / (4 * cos(t2) * cos(t2) - 3);
-        y2 = (a * sin(t2)) / (4 * cos(t2) * cos(t2) - 3);
+         if (fabs(x1) > limit || fabs(y1) > limit)
+           continue;
 
-        if (fabs(x1) > limit || fabs(y1) > limit)
-            continue;
-
-        if (fabs(x2) > limit || fabs(y2) > limit)
+       if (fabs(x2) > limit || fabs(y2) > limit)
             continue;
 
         if (idx % 2 == 0)
@@ -563,9 +515,8 @@ void Display10() {
             glColor3f(1, 0, 0);
 
 
-
         glVertex2d(ox, oy);
-        glVertex2d(x1, y1);
+        glVertex2d(x1 , y1 );
         glVertex2d(x2, y2);
 
 
