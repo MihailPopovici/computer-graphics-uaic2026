@@ -271,25 +271,25 @@ void fractalSquare(Turtle t, float size, int recursionsLeft) {
     float third = size / 3.0f;
 
     // Patratul mare in centru (ocupa 1/3 din size, centrat)
-    Turtle tc = t;
-    tc.move(third);
-    tc.rotate(pi / 2);
-    tc.move(third);
-    tc.rotate(-pi / 2);
-    drawSquare(tc, third);
+    Turtle tc1 = t;
+    tc1.move(third);
+    tc1.rotate(pi / 2);
+    tc1.move(third);
+    tc1.rotate(-pi / 2);
+    drawSquare(tc1, third);
 
     if (recursionsLeft > 0) {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 if (row == 1 && col == 1) continue;
 
-                Turtle ts = t;
-                ts.move(col * third);
-                ts.rotate(pi / 2);
-                ts.move(row * third);
-                ts.rotate(-pi / 2);
+                Turtle tc2 = t;
+                tc2.move(col * third);
+                tc2.rotate(pi / 2);
+                tc2.move(row * third);
+                tc2.rotate(-pi / 2);
 
-                fractalSquare(ts, third, recursionsLeft - 1);
+                fractalSquare(tc2, third, recursionsLeft - 1);
             }
         }
     }
