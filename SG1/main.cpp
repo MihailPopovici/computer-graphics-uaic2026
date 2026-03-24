@@ -237,7 +237,7 @@ void Display4() {
     double b = 0.2;
     double x = 0, y = 0;
 
-    double xmax = 0, ymax = 0;
+    double xmax = -1000, ymax = -1000;
     double scale;
 
     double start = -pi + 0.0001;
@@ -279,8 +279,8 @@ void Display5() {
     double a = 0.1;
     double b = 0.2;
     double x = 0, y = 0;
-    double xmax = 0;
-    double ymax = 0;
+    double xmax = -1000;
+    double ymax = -1000;
 
     double start = -10;
     double end = 10;
@@ -321,7 +321,7 @@ void Display6() {
     double a = 0.1;
     double b = 0.3;
     double x = 0, y = 0;
-    double xmax = 0, ymax = 0;
+    double xmax = -1000, ymax = -1000;
 
     double start = 0;
     double end = 2 * pi;
@@ -361,7 +361,7 @@ void Display7() {
     double b = 0.3;
     double x = 0, y = 0;
 
-    double xmax = 0, ymax = 0;
+    double xmax = -1000, ymax = -1000;
 
     double start = 0;
     double end = 2 * pi;
@@ -397,7 +397,7 @@ void Display7() {
 void Display8() {
     double a = 0.02;
     double x = 0, y = 0;
-    double xmax = 0, ymax = 0;
+    double xmax = -1000, ymax = -1000;
 
     double start = 0;
     double end = 10;
@@ -434,7 +434,7 @@ void Display8() {
 void Display9() {
     double a = 10;
     double x = 0, y = 0;
-    double xmax = 0, ymax = 0;
+    double xmax = -1000 ,ymax = -1000;
 
     double start = 0;
     double end = 2 * pi;
