@@ -45,7 +45,7 @@ float startPoint = -1 + offset;
 unsigned char prevKey;
 
 
-float ToGLCoords(int x) {
+float ToGLCoords(float x) {
 	return startPoint + x * cellSize;
     
 }
@@ -88,7 +88,7 @@ void drawDisc(int i, int j) {
     glEnd();
 }
 
-void DrawThickDiscs(int i, int j, int thickness) {
+void DrawThickDiscs(int i, int j, int thickness = 2) {
 	int half = thickness / 2;
 	for (int tx = -half; tx <= half; tx++)
 		for (int ty = -half; ty <= half; ty++)
@@ -219,11 +219,11 @@ void DrawCircle(int cx, int cy, int r, int segments = 8) {
         {
 			float angle = i * circle / float(segments);
 
-			int x = cx + r * (cos(angle));
-			int y = cy + r * (sin(angle));
+			float x = cx + r * (cos(angle));
+			float y = cy + r * (sin(angle));
 
             glVertex2f(ToGLCoords(x), ToGLCoords(y));
-
+            
 		}
 	}
 	glEnd();
@@ -267,7 +267,7 @@ void DrawVirtualCircle(int cx, int cy, int r, int segments = 8) {
 }
 
 
-void RasterCircle(int cx, int cy, int r, int thickness = 2) {
+/*void RasterCircle(int cx, int cy, int r, int thickness = 2) {
     int x = 0, y = r;
     int d = 1 - r;
     int de = 3;
@@ -283,11 +283,11 @@ void RasterCircle(int cx, int cy, int r, int thickness = 2) {
         };
 
     auto plot8 = [&](int x, int y) {
-        drawThick(cx + x, cy + y);
-        drawThick(cx - x, cy + y);
-        drawThick(cx + x, cy - y);
-        drawThick(cx - x, cy - y);
-        drawThick(cx + y, cy + x);
+        drawThick(cx + x, cy + y);  
+        drawThick(cx - x, cy + y);  
+        drawThick(cx + x, cy - y); 
+        drawThick(cx - x, cy - y); 
+        drawThick(cx + y, cy + x); 
         drawThick(cx - y, cy + x);
         drawThick(cx + y, cy - x);
         drawThick(cx - y, cy - x);
@@ -304,9 +304,241 @@ void RasterCircle(int cx, int cy, int r, int thickness = 2) {
         }
         plot8(x, y);
     }
+}*/
+
+/*
+void RasterCircle_Octant2(int cx, int cy, int r, int thickness, int sign) {
+	int x = 0, y = r;
+	int d = 1 - r;
+	int de = 3;
+	int dse = -2 * r + 5;
+
+    DrawThickDiscs(cx + x, cy + sign * y, thickness);
+	
+    while (x < y) {
+       
+		x++;
+        if (d < 0) {
+			d += de; de += 2; dse += 2;
+		}
+        else {
+			y--; d += dse; de += 2; dse += 4;
+		}
+        
+	}
+    DrawThickDiscs(cx + x, cy + sign * y, thickness);
+}
+
+void RasterCircle_Octant1(int cx, int cy, int r, int thickness, int sign) {
+	int x = 0, y = r;
+	int d = 1 - r;
+	int de = 3;
+	int dse = -2 * r + 5;
+
+    
+
+    while (x < y) {
+		DrawThickDiscs(cx + y, cy + x * sign, thickness);
+		x++;
+        if (d < 0) {
+			d += de; de += 2; dse += 2;
+		}
+        else {
+			y--; d += dse; de += 2; dse += 4;
+		}
+		
+	}
+}
+
+void RasterCircle_Octant3(int cx, int cy, int r, int thickness, int sign) {
+    int x = 0, y = r;
+    int d = 1 - r;
+    int de = 3;
+    int dse = -2 * r + 5;
+
+    while (x < y) {
+        DrawThickDiscs(cx - x, cy + y * sign, thickness); 
+        x++;
+
+        if (d < 0) {
+            d += de; de += 2; dse += 2;
+        }
+        else {
+            y--; d += dse; de += 2; dse += 4;
+        }
+    }
 }
 
 
+void RasterCircle_Octant4(int cx, int cy, int r, int thickness, int sign) {
+    int x = 0, y = r;
+    int d = 1 - r;
+    int de = 3;
+    int dse = -2 * r + 5;
+
+    while (x < y) {
+        DrawThickDiscs(cx - y, cy + sign * x, thickness); 
+        x++;
+
+        if (d < 0) {
+            d += de; de += 2; dse += 2;
+        }
+        else {
+            y--; d += dse; de += 2; dse += 4;
+        }
+    }
+}
+*/
+
+void RasterCircle_Octant2(int cx, int cy, int r, int thickness, int sign) {
+    int x = 0, y = r;
+    int d = 1 - r;
+    int de = 3;
+    int dse = -2 * r + 5;
+
+    while (x <= y) {
+        DrawThickDiscs(cx + x * sign, cy + y, thickness);
+
+        x++;
+        if (d < 0) {
+            d += de;
+            de += 2;
+            dse += 2;
+        }
+        else {
+            y--;
+            d += dse;
+            de += 2;
+            dse += 4;
+        }
+    }
+}
+
+void RasterCircle_Octant1(int cx, int cy, int r, int thickness, int sign) {
+    int x = 0, y = r;
+    int d = 1 - r;
+    int de = 3;
+    int dse = -2 * r + 5;
+
+    while (x <= y) {
+        DrawThickDiscs(cx + sign *y, cy + x , thickness);
+
+        x++;
+        if (d < 0) {
+            d += de;
+            de += 2;
+            dse += 2;
+        }
+        else {
+            y--;
+            d += dse;
+            de += 2;
+            dse += 4;
+        }
+    }
+}
+
+void RasterCircle_Octant7(int cx, int cy, int r, int thickness, int sign) {
+    int x = 0, y = r;
+    int d = 1 - r;
+    int de = 3;
+    int dse = -2 * r + 5;
+
+    while (x <= y) {
+        DrawThickDiscs(cx + y *sign, cy - x , thickness);
+
+        x++;
+        if (d < 0) {
+            d += de;
+            de += 2;
+            dse += 2;
+        }
+        else {
+            y--;
+            d += dse;
+            de += 2;
+            dse += 4;
+        }
+    }
+}
+
+void RasterCircle_Octant8(int cx, int cy, int r, int thickness, int sign) {
+    int x = 0, y = r;
+    int d = 1 - r;
+    int de = 3;
+    int dse = -2 * r + 5;
+
+    while (x <= y) {
+        DrawThickDiscs(cx + x*sign, cy - y , thickness);
+
+        x++;
+        if (d < 0) {
+            d += de;
+            de += 2;
+            dse += 2;
+        }
+        else {
+            y--;
+            d += dse;
+            de += 2;
+            dse += 4;
+        }
+    }
+}
+
+void RasterCircle(int cx, int cy, int r, int thickness) {
+    
+    glColor3f(0.1f, 0.1f, 1.0f);
+    DrawCircle(cx, cy, r, 30);
+    
+    glColor3f(0.1f, 0.1f, 0.1f);
+	RasterCircle_Octant1(cx, cy, r, thickness, 1);
+	RasterCircle_Octant2(cx, cy, r, thickness, 1);
+    RasterCircle_Octant7(cx, cy, r, thickness, 1);
+    RasterCircle_Octant8(cx, cy, r, thickness, 1);
+
+    RasterCircle_Octant1(cx, cy, r, thickness, -1);
+    RasterCircle_Octant2(cx, cy, r, thickness, -1);
+    RasterCircle_Octant7(cx, cy, r, thickness, -1);
+    RasterCircle_Octant8(cx, cy, r, thickness, -1);
+
+}
+
+/*void FillCircle(int cx, int cy, int r)
+{
+    for(int y = -r; y <= r; y++)
+		for (int x = -r; x <= r; x++)
+			if (x * x + y * y <= r * r)
+				DrawThickDiscs(cx + x, cy + y);
+}
+*/
+
+void FillCircleLine(int cx, int cy, int x, int y) {
+    for (int i = cx - x; i <= cx + x; i++) {
+        drawDisc(i, cy + y);
+        drawDisc(i, cy - y);
+    }
+}
+
+void Display5() {
+
+    DrawGrid(numberOfCols, numberOfRows);
+
+    //glColor3f(0.1f, 0.1f, 0.1f);
+    RasterCircle(15, 15, 8, 2);
+   // for (int y = -8; y <= 8; y++) {
+    //    int x = int(sqrt(64 - y * y));
+    //    FillCircleLine(15, 15, x, y);
+    //}
+
+    //FillCircle(15, 15, 8);
+    //DrawVirtualCircle(15, 15, 8, 9);
+
+    //glColor3f(0.1f, 0.1f, 0.1f);
+    //RasterLine(3, 3, 27, 20);
+
+
+}
 
 void Display1() {
     glColor3f(0.2, 0.15, 0.88); // blue
@@ -456,19 +688,7 @@ void Display4() {
 
 }
 
-void Display5() {
-   
-    DrawGrid(numberOfCols, numberOfRows);
 
-    //glColor3f(0.1f, 0.1f, 0.1f);
-    //RasterCircle(15, 15, 8);
-    DrawVirtualCircle(15, 15, 8, 8);
-
-    //glColor3f(0.1f, 0.1f, 0.1f);
-    //RasterLine(3, 3, 27, 20);
-
-
-}
 
 void Display6() {
 }
